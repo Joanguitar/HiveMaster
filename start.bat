@@ -18,8 +18,8 @@
 source $(pwd)/venv/bin/activate
 
 # Initiate HolmesV
-python3 -m mycroft.messagebus.service > /dev/null 2>&1 &
-python3 -m mycroft.skills > /dev/null 2>&1 &
+start "" .\venv\Scripts\python -m mycroft.messagebus.service
+start "" .\venv\Scripts\python -m mycroft.skills
 
 # Initiate HiveMind-core master
-python3 Hive-master.py > /dev/null 2>&1 &
+start "" .\venv\Scripts\python Hive-master.py

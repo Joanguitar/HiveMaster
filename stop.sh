@@ -16,7 +16,7 @@
 
 # Functions
 function process-running() {
-    if [[ $( pgrep -o -f "python* (.*)${1}" ) ]] ; then
+    if [[ $( pgrep -o -f "python3 (.*)${1}" ) ]] ; then
         return 0
     else
         return 1
@@ -26,7 +26,7 @@ function process-running() {
 function end-process() {
     if process-running $1 ; then
         # Find the process by name, only returning the oldest if it has children
-        pid=$( pgrep -o -f "python* (.*)${1}" )
+        pid=$( pgrep -o -f "python3 (.*)${1}" )
         echo -n "Stopping $1 (${pid})..."
         kill -SIGINT ${pid}
 
@@ -43,7 +43,7 @@ function end-process() {
 
         if process-running $1 ; then
             echo "failed to stop."
-            pid=$( pgrep -o -f "python* (.*)${1}" )            
+            pid=$( pgrep -o -f "python3 (.*)${1}" )            
             echo -n "  Killing $1 (${pid})..."
             kill -9 ${pid}
             echo "killed."
