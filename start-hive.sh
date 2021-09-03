@@ -13,15 +13,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# Parameters
+host="wss://192.168.0.174"
+name="TestUser"
+access_key="WeakestPasswordEver"
+crypto_key=""
+port="5678"
 
-# Install virtualenv and create venv
-pip3 install virtualenv
-python3 -m virtualenv venv
-
-# Activate venv
-source $(pwd)/venv/bin/activate
-
-# Install HolmesV
-pip3 install HolmesV HolmesV[bus] HolmesV[skills] lingua_franca pyaudio
-# Install HiveMind
-pip3 install git+https://github.com/JarbasHiveMind/HiveMind-core
+# Activate venv and initiale HiveMind-core master
+source $(pwd)/.venv/bin/activate
+if [ ${crypto_key}=="" ]
+then
+  python3 -m jarbas_hive_mind --host ${host} --name ${name} --access_key ${access_key} --port ${port}
+else
+  python3 -m jarbas_hive_mind --host ${host} --name ${name} --access_key ${access_key} --crypto_key ${crypto_key} --port ${port}
+fi

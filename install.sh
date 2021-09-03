@@ -16,12 +16,10 @@
 
 # Install virtualenv and create venv
 pip3 install virtualenv
-python3 -m virtualenv venv
-
+python3 -m virtualenv .venv
 # Activate venv
-source $(pwd)/venv/bin/activate
-
+source $(pwd)/.venv/bin/activate
 # Install HolmesV
-pip3 install HolmesV HolmesV[stt] HolmesV[tts-engines] lingua_franca pyaudio
+pip3 install HolmesV[mycroft]==2021.5.6a2 HolmesV[skills]==2021.5.6a2
 # Install HiveMind
 pip3 install git+https://github.com/JarbasHiveMind/HiveMind-core
