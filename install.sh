@@ -14,12 +14,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Update
+sudo apt-get update -y
+pip install --upgrade pip
 # Install virtualenv and create venv
 pip3 install virtualenv
 python3 -m virtualenv .venv
 # Activate venv
 source $(pwd)/.venv/bin/activate
+pip install --upgrade pip
+# Install swig
+sudo apt-get install -y swig
+# Install fann
+sudo apt-get install -y libfann-dev
 # Install HolmesV
-pip3 install HolmesV[mycroft]==2021.5.6a2 HolmesV[skills]==2021.5.6a2
+pip3 install HolmesV
+pip3 install HolmesV[bus]
+pip3 install HolmesV[skills]
+# Install lingua_franca
+pip3 install lingua_franca
+# Create Skills folder
+setup_user=$USER
+setup_group=$(id -gn $USER)
+sudo mkdir -p /opt/mycroft/skills
+sudo chown -R ${setup_user}:${setup_group} /opt/mycroft
 # Install HiveMind
-pip3 install git+https://github.com/JarbasHiveMind/HiveMind-core
+pip3 install git+https://github.com/Joanguitar/HiveMind-core
