@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2017 Mycroft AI Inc.
+# Copyright 2018 Mycroft AI Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Activate venv
-source $(pwd)/venv/bin/activate
+SOURCE="${BASH_SOURCE[0]}"
+cd -P "$( dirname "$SOURCE" )"
+DIR="$( pwd )"
 
-# Initiate HolmesV
-start "" .\venv\Scripts\python -m mycroft.messagebus.service
-start "" .\venv\Scripts\python -m mycroft.skills
+# Enter the Mycroft venv
+source "$DIR/../venv-activate.sh" -q
 
-# Initiate HiveMind-core master
-start "" .\venv\Scripts\python Hive-master.py
+# Sets var 1 to stdin if no args were given
+set -- "${1:-$(</dev/stdin)}" "${@:2}"
+
+# Send a message to be spoken
+data="$@"
+output=$(python -m mycroft.messagebus.send "recognizer_loop:utterance"  "{\"utterances\": [\"$data\"], \"lang\": \"en-us\"}")
