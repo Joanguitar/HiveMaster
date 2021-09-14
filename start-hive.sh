@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # Parameters
-host="wss://192.168.0.174"
 name="TestUser"
 access_key="WeakestPasswordEver"
 crypto_key=""
@@ -24,7 +23,7 @@ port="5678"
 source $(pwd)/.venv/bin/activate
 if [ ${crypto_key}=="" ]
 then
-  python3 -m jarbas_hive_mind --host ${host} --name ${name} --access_key ${access_key} --port ${port}
+  python3 -m jarbas_hive_mind --name ${name} --access_key ${access_key} --port ${port}
 else
-  python3 -m jarbas_hive_mind --host ${host} --name ${name} --access_key ${access_key} --crypto_key ${crypto_key} --port ${port}
+  python3 -m jarbas_hive_mind --name ${name} --access_key ${access_key} --crypto_key ${crypto_key} --port ${port}
 fi
