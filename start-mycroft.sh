@@ -27,7 +27,7 @@ function help() {
     echo "usage: ${script} [COMMAND] [restart] [params]"
     echo
     echo "Services COMMANDs:"
-    echo "  all                      runs core services: bus, audio, skills, voice"
+    echo "  all                      runs core services: bus, audio, skills"
     echo "  debug                    runs core services, then starts the CLI"
     echo "  audio                    the audio playback service"
     echo "  bus                      the messagebus service"
@@ -146,7 +146,6 @@ function launch-all() {
     launch-background bus
     launch-background skills
     launch-background audio
-    launch-background voice
     launch-background enclosure
 }
 
@@ -159,21 +158,6 @@ function check-dependencies() {
     if [ "$auto_update" == "true" ] ; then
         # Check github repo for updates (e.g. a new release)
         git pull
-    fi
-
-    if [ ! -f .installed ] || ! md5sum -c &> /dev/null < .installed ; then
-        # Critical files have changed, dev_setup.sh should be run again
-        if [ "$auto_update" == "true" ] ; then
-            echo "Updating dependencies..."
-            bash dev_setup.sh
-        else
-            echo "Please update dependencies by running ./dev_setup.sh again."
-            if command -v notify-send >/dev/null ; then
-                # Generate a desktop notification (ArchLinux)
-                notify-send "Mycroft Dependencies Outdated" "Run ./dev_setup.sh again"
-            fi
-            exit 1
-        fi
     fi
 }
 
