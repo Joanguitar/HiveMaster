@@ -1,6 +1,7 @@
 # Ignored
 .idea
 mimic
+skills
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
