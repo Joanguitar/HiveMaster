@@ -14,8 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # Parameters
-port="5678"
+name="TestUser"
+access_key="WeakestPasswordEver"
+crypto_key=""
 
-# Activate venv and initiale HiveMind-core master
+# Activate venv and initiale HiveMind-core database
 source $(pwd)/.venv/bin/activate
-python3 -m jarbas_hive_mind --port ${port}
+if [ ${crypto_key}=="" ]
+then
+  python3 -m jarbas_hive_mind.database add --name ${name} --access_key ${access_key}
+else
+  python3 -m jarbas_hive_mind.database add --name ${name} --access_key ${access_key} --crypto_key ${crypto_key}
+fi
