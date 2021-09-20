@@ -27,7 +27,7 @@ function help() {
     echo "usage: ${script} [COMMAND] [restart] [params]"
     echo
     echo "Services COMMANDs:"
-    echo "  all                      runs core services: bus, audio, skills"
+    echo "  all                      runs core services: bus, audio, skills, hive"
     echo "  debug                    runs core services, then starts the CLI"
     echo "  audio                    the audio playback service"
     echo "  bus                      the messagebus service"
@@ -35,6 +35,7 @@ function help() {
     echo "  voice                    voice capture service"
     # echo "  wifi                     wifi setup service"
     echo "  enclosure                mark_1 enclosure service"
+    echo "  hive                     hive mind service"
     echo
     echo "Tool COMMANDs:"
     echo "  cli                      the Command Line Interface"
@@ -66,6 +67,7 @@ function name-to-script-path() {
         "skills")            _module="mycroft.skills" ;;
         "audio")             _module="mycroft.audio" ;;
         "voice")             _module="mycroft.client.speech" ;;
+        "hive")              _module="jarbas_hive_mind" ;;
         "cli")               _module="mycroft.client.text" ;;
         "audiotest")         _module="mycroft.util.audio_test" ;;
         "wakewordtest")      _module="test.wake_word" ;;
@@ -147,6 +149,7 @@ function launch-all() {
     launch-background skills
     launch-background audio
     launch-background enclosure
+    launch-background hive
 }
 
 function check-dependencies() {

@@ -48,6 +48,14 @@ function process-running() {
     fi
 }
 
+function process-running-alt() {
+    if [[ $( pgrep -f "python3 (.*)-m ${1}" ) ]] ; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 function end-process() {
     if process-running $1 ; then
         # Find the process by name, only returning the oldest if it has children
@@ -68,7 +76,41 @@ function end-process() {
 
         if process-running $1 ; then
             echo "failed to stop."
-            pid=$( pgrep -o -f "python3 (.*)-m mycroft.*${1}" )            
+            pid=$( pgrep -o -f "python3 (.*)-m mycroft.*${1}" )
+            echo -n "  Killing $1 (${pid})..."
+            kill -9 ${pid}
+            echo "killed."
+            result=120
+        else
+            echo "stopped."
+            if [ $result -eq 0 ] ; then
+                result=100
+            fi
+        fi
+    fi
+}
+
+function end-process-alt() {
+    if process-running $1 ; then
+        # Find the process by name, only returning the oldest if it has children
+        pid=$( pgrep -o -f "python3 (.*)-m ${1}" )
+        echo -n "Stopping $1 (${pid})..."
+        kill -SIGINT ${pid}
+
+        # Wait up to 5 seconds (50 * 0.1) for process to stop
+        c=1
+        while [ $c -le 50 ] ; do
+            if process-running-alt $1 ; then
+                sleep 0.1
+                (( c++ ))
+            else
+                c=999   # end loop
+            fi
+        done
+
+        if process-running-alt $1 ; then
+            echo "failed to stop."
+            pid=$( pgrep -o -f "python3 (.*)-m ${1}" )
             echo -n "  Killing $1 (${pid})..."
             kill -9 ${pid}
             echo "killed."
@@ -99,6 +141,7 @@ case ${OPT} in
         end-process speech
         end-process enclosure
         end-process messagebus.service
+        end-process-alt jarbas_hive_mind
         ;;
     "bus")
         end-process messagebus.service
