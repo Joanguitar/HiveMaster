@@ -91,7 +91,7 @@ function end-process() {
 }
 
 function end-process-alt() {
-    if process-running $1 ; then
+    if process-running-alt $1 ; then
         # Find the process by name, only returning the oldest if it has children
         pid=$( pgrep -o -f "python3 (.*)-m ${1}" )
         echo -n "Stopping $1 (${pid})..."
